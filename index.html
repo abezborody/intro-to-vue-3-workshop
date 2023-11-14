@@ -6,5 +6,62 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
   </head>
-  <body></body>
+  <body>
+    <div id="app">
+      <h2>Characters:</h2>
+      <p v-if="charactersList.length === 0">There are no characters</p>
+      <ul v-else>
+        <li v-for="character in charactersList">
+          <p>{{ character.name }}</p>
+          <button @click="favoriteCharacter(character)">
+            {{character.isFavorited ? ' ⭐️ Favorited' : 'Favorite ' }}
+          </button>
+        </li>
+      </ul>
+      <hr />
+      <h2>Favorited:</h2>
+      <p v-if="favoriteList.length === 0">No favorited characters...</p>
+      <ul v-else>
+        <li v-for="character in favoriteList">{{ character.name }}</li>
+      </ul>
+      <h2>Add new character</h2>
+      <pre>{{newCharacter}}</pre>
+      <label for="character-name">Name</label>
+      <input v-model="newCharacter.name" @keyup.enter="addNewCharacter" />
+      <!-- <p>
+        <span v-for="(character, index) in charactersList"
+          >{{ character.name }}{{ index === charactersList.length - 1 ? '' : `,
+          `}}
+        </span>
+      </p> -->
+    </div>
+
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
+      Vue.createApp({
+        data: () => ({
+          newCharacter: { name: '', isFavorited: false },
+          charactersList: [
+            { name: 'Aang', isFavorited: false },
+            { name: 'Zuko', isFavorited: false },
+            { name: 'Toph', isFavorited: false },
+            { name: 'Katara', isFavorited: false },
+          ],
+          favoriteList: [],
+        }),
+        methods: {
+          favoriteCharacter(character) {
+            if (!character.isFavorited) {
+              this.favoriteList.push(character);
+              character.isFavorited = true;
+            }
+          },
+          addNewCharacter() {
+            this.charactersList.push(this.newCharacter);
+            this.newCharacter = { name: '', isFavorited: false };
+          },
+        },
+      }).mount('#app');
+    </script>
+  </body>
 </html>

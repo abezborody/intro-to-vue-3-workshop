@@ -7,8 +7,17 @@
     <title>Playground — Complete Intro to Vue 3</title>
   </head>
   <body>
-    <h1>hello</h1>
     <div id="app">
+      <h1>{{ message }}</h1>
+      <h1>Counter</h1>
+      <p>{{ count }}</p>
+      <button @click="incrementCount">Increment</button>
+      <div>
+        <h2>{{ incrementAmount }}</h2>
+        <label for="incrementAmount">Increment by:</label>
+        <input type="number" v-model="incrementAmount" />
+      </div>
+      <hr />
       <p v-if="message.length % 2 === 0">Even: {{ message }}</p>
       <p v-else>Odd: {{ message }}</p>
       <ul>
@@ -22,9 +31,18 @@
       const app = createApp({
         data() {
           return {
+            count: 10,
+            incrementAmount: 1,
             message: 'Hello again, it works?!',
             listOfNumbers: [1, 2, 3, 4, 5],
           };
+        },
+
+        methods: {
+          incrementCount(event) {
+            console.log(event);
+            this.count += this.incrementAmount;
+          },
         },
       });
 
