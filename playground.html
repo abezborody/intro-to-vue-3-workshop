@@ -9,11 +9,11 @@
   <body>
     <div id="app">
       <h1>{{ message }}</h1>
-      <h1>Counter</h1>
+      <h1>{{ displayTitle }}</h1>
       <p>{{ count }}</p>
       <button @click="incrementCount">Increment</button>
       <div>
-        <h2>{{ incrementAmount }}</h2>
+        <h2>{{ optimezedIncrementAmount }}</h2>
         <label for="incrementAmount">Increment by:</label>
         <input type="number" v-model="incrementAmount" />
       </div>
@@ -32,16 +32,35 @@
         data() {
           return {
             count: 10,
+            counterTitle: 'Counter Standart',
             incrementAmount: 1,
             message: 'Hello again, it works?!',
             listOfNumbers: [1, 2, 3, 4, 5],
           };
         },
-
+        computed: {
+          displayTitle() {
+            if (this.count > 20) {
+              return 'Counter Standart - Very Long';
+            } else {
+              return 'Counter Standart';
+            }
+          },
+          optimezedIncrementAmount() {
+            return this.displayTitle.length * this.incrementAmount;
+          },
+        },
         methods: {
           incrementCount(event) {
-            console.log(event);
+            // console.log(event);
             this.count += this.incrementAmount;
+          },
+        },
+        watch: {
+          count(newValue) {
+            if (newValue > 20) {
+              this.counterTitle += ' Very Long';
+            }
           },
         },
       });
